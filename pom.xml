@@ -14,6 +14,17 @@
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<maven.test.skip>true</maven.test.skip>
 	</properties>
+	
+	<distributionManagement>
+		<snapshotRepository>
+			<id>codemc-snapshots</id>
+			<url>https://repo.codemc.org/repository/maven-snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>codemc-releases</id>
+			<url>https://repo.codemc.org/repository/maven-releases/</url>
+		</repository>
+	</distributionManagement>
 
 	<repositories>
 		<repository>

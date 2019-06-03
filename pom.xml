@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>com.gmail.filoghost.updater</groupId>
-	<artifactId>updater</artifactId>
-	<name>Plugin Updater</name>
+	<groupId>me.filoghost.updatechecker</groupId>
+	<artifactId>updatechecker</artifactId>
+	<name>Update Checker</name>
 	<version>1.0.0</version>
 
 	<properties>

@@ -12,7 +12,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.gmail.filoghost.updater;
+package me.filoghost.updatechecker;
 
 class InvalidVersionException extends Exception {
 

@@ -45,46 +45,35 @@ public final class UpdateChecker {
 			throw new NullPointerException("ResponseHandler cannot be null");
 		}
 		
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					JSONArray filesArray = (JSONArray) readJson("https://api.curseforge.com/servermods/files?projectIds=" + projectId);
-
-					if (filesArray.size() == 0) {
-						// The array cannot be empty, there must be at least one file.
-						// The project ID is not valid or curse returned a wrong response.
-						return;
-					}
-					
-					String updateName = (String) ((JSONObject) filesArray.get(filesArray.size() - 1)).get("name");
-					final PluginVersion remoteVersion = new PluginVersion(updateName);
-					PluginVersion localVersion = new PluginVersion(plugin.getDescription().getVersion());
-					
-					if (remoteVersion.isNewerThan(localVersion)) {
-						// Run synchronously on main thread
-						Bukkit.getScheduler().runTask(plugin, new Runnable() {
-
-							@Override
-							public void run() {
-								responseHandler.onUpdateFound(remoteVersion.getFormattedVersion());
-							}
-							
-						});
-					}
-
-				} catch (IOException e) {
-					plugin.getLogger().log(Level.WARNING, "Could not contact BukkitDev to check for updates.");
-				} catch (InvalidVersionException e) {
-					plugin.getLogger().log(Level.WARNING, "Could not check for updates because of a version format error: " + e.getMessage() + ".");
-					plugin.getLogger().log(Level.WARNING, "Please notify the author of this error.");
-				} catch (Exception e) {
-					plugin.getLogger().log(Level.WARNING, "Unable to check for updates: unhandled exception.", e);
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			try {
+				JSONArray filesArray = (JSONArray) readJson("https://api.curseforge.com/servermods/files?projectIds=" + projectId);
+				if (filesArray.size() == 0) {
+					// The array cannot be empty, there must be at least one file.
+					// The project ID is not valid or curse returned a wrong response.
+					return;
 				}
+				
+				String updateName = (String) ((JSONObject) filesArray.get(filesArray.size() - 1)).get("name");
+				final PluginVersion remoteVersion = new PluginVersion(updateName);
+				PluginVersion localVersion = new PluginVersion(plugin.getDescription().getVersion());
+				
+				if (remoteVersion.isNewerThan(localVersion)) {
+					// Run synchronously on main thread
+					Bukkit.getScheduler().runTask(plugin, () -> {
+						responseHandler.onUpdateFound(remoteVersion.getFormattedVersion());
+					});
+				}
+
+			} catch (IOException e) {
+				plugin.getLogger().log(Level.WARNING, "Could not contact BukkitDev to check for updates.");
+			} catch (InvalidVersionException e) {
+				plugin.getLogger().log(Level.WARNING, "Could not check for updates because of a version format error: " + e.getMessage() + ".");
+				plugin.getLogger().log(Level.WARNING, "Please notify the author of this error.");
+			} catch (Exception e) {
+				plugin.getLogger().log(Level.WARNING, "Unable to check for updates: unhandled exception.", e);
 			}
-			
-		}).start();
+		});
 	}
 	
 	

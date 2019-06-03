@@ -28,7 +28,7 @@ class PluginVersion {
 	private boolean isDevBuild;
 	
 	
-	PluginVersion(String input) throws InvalidVersionException {
+	protected PluginVersion(String input) throws InvalidVersionException {
 		if (input == null) {
 			throw new InvalidVersionException("input was null");
 		}
@@ -67,7 +67,7 @@ class PluginVersion {
 	 * 
 	 * @return true if this version is newer than the other, false if equal or older
 	 */
-	boolean isNewerThan(PluginVersion other) {
+	protected boolean isNewerThan(PluginVersion other) {
 		int longest = Math.max(this.versionNumbers.length, other.versionNumbers.length);
 		
 		for (int i = 0; i < longest; i++) {
@@ -94,7 +94,7 @@ class PluginVersion {
 	}
 	
 
-	String getFormattedVersion() {
+	protected String getFormattedVersion() {
 		return "v" + Ints.join(".", versionNumbers);
 	}
 	

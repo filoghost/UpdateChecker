@@ -12,6 +12,7 @@ class PluginVersionTest {
 		assertEquals("v1.0.0", new PluginVersion("Plugin v1.0.0").getFormattedVersion());
 		assertEquals("v1.0.0", new PluginVersion("Plugin v1..0..0").getFormattedVersion());
 		assertEquals("v1.0.0", new PluginVersion("Plugin-1.0.0").getFormattedVersion());
+		assertEquals("v1.0.0", new PluginVersion("Plugin v1.0.0 SNAPSHOT").getFormattedVersion());
 		assertEquals("v1.0.0", new PluginVersion("Plugin v1.0.0-SNAPSHOT").getFormattedVersion());
 		assertEquals("v1.0.0", new PluginVersion("Plugin v01.00.00").getFormattedVersion());
 		assertEquals("v1", new PluginVersion("Plugin v1.a0.0").getFormattedVersion());
@@ -33,8 +34,9 @@ class PluginVersionTest {
 		assertEquals(CompareResult.NEWER, compare("1.0.2", "1.0.1"));
 		assertEquals(CompareResult.EQUAL, compare("1.0.0", "1.0.0"));
 		assertEquals(CompareResult.EQUAL, compare("1.0.0", "1"));
+		assertEquals(CompareResult.EQUAL, compare("1.0.0 SNAPSHOT", "1.0.0 DEV"));
 		assertEquals(CompareResult.OLDER, compare("1.0.0", "2.0.0"));
-		assertEquals(CompareResult.OLDER, compare("1.0.0-SNAPSHOT", "1.0.0"));
+		assertEquals(CompareResult.OLDER, compare("1.0.0 SNAPSHOT", "1.0.0"));
 		assertEquals(CompareResult.OLDER, compare("1.0.1", "1.0.2"));
 	}
 

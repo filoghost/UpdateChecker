@@ -46,7 +46,7 @@ class PluginVersion {
 			}
 		}
 		
-		this.isDevBuild = input.contains("SNAPSHOT");
+		this.isDevBuild = input.contains("SNAPSHOT") || input.contains("DEV");
 	}
 	
 	

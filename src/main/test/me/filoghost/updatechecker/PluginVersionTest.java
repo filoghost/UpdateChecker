@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) filoghost
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 package me.filoghost.updatechecker;
 
 import org.junit.jupiter.api.Test;

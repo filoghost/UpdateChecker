@@ -17,7 +17,6 @@ package me.filoghost.updatechecker;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.logging.Level;
@@ -58,7 +57,7 @@ public final class UpdateChecker {
 				final PluginVersion remoteVersion = new PluginVersion(updateName);
 				PluginVersion localVersion = new PluginVersion(plugin.getDescription().getVersion());
 				
-				if (remoteVersion.isNewerThan(localVersion)) {
+				if (remoteVersion.compareTo(localVersion) == CompareResult.NEWER) {
 					// Run synchronously on main thread
 					Bukkit.getScheduler().runTask(plugin, () -> {
 						responseHandler.onUpdateFound(remoteVersion.getFormattedVersion());
@@ -77,7 +76,7 @@ public final class UpdateChecker {
 	}
 	
 	
-	private static Object readJson(String url) throws MalformedURLException, IOException {
+	private static Object readJson(String url) throws IOException {
 		URLConnection conn = new URL(url).openConnection();
 		conn.setConnectTimeout(5000);
 		conn.setReadTimeout(8000);

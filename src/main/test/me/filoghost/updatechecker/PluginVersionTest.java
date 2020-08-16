@@ -28,14 +28,18 @@ class PluginVersionTest {
 
 	@Test
 	void testVersionComparison() throws InvalidVersionException {
-		assertTrue(isNewerThan("2.0.0", "1.0.0"));
-		assertTrue(isNewerThan("1.0.0", "1.0.0-SNAPSHOT"));
-		assertFalse(isNewerThan("1.0.0", "1.0.0"));
-		assertFalse(isNewerThan("1.0.0", "1"));
+		assertEquals(CompareResult.NEWER, compare("2.0.0", "1.0.0"));
+		assertEquals(CompareResult.NEWER, compare("1.0.0", "1.0.0-SNAPSHOT"));
+		assertEquals(CompareResult.NEWER, compare("1.0.2", "1.0.1"));
+		assertEquals(CompareResult.EQUAL, compare("1.0.0", "1.0.0"));
+		assertEquals(CompareResult.EQUAL, compare("1.0.0", "1"));
+		assertEquals(CompareResult.OLDER, compare("1.0.0", "2.0.0"));
+		assertEquals(CompareResult.OLDER, compare("1.0.0-SNAPSHOT", "1.0.0"));
+		assertEquals(CompareResult.OLDER, compare("1.0.1", "1.0.2"));
 	}
 
-	private boolean isNewerThan(String subject, String target) throws InvalidVersionException {
-		return new PluginVersion(subject).isNewerThan(new PluginVersion(target));
+	private CompareResult compare(String subject, String target) throws InvalidVersionException {
+		return new PluginVersion(subject).compareTo(new PluginVersion(target));
 	}
 
 }
